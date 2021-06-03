@@ -71,7 +71,7 @@
     editor.addEventListener('keydown', function(event) {
       console.log('keydown', event);
 
-      if (event.code === 'Enter') {
+      if (!event.isComposing && event.code === 'Enter') {
         save();
       }
     }, false);
