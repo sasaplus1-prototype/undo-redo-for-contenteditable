@@ -46,14 +46,10 @@
 
   if (editor) {
     function save() {
-      const range = new Range();
-      const currentRange = document.getSelection().getRangeAt(0);
-
-      range.setStart(currentRange.startContainer, currentRange.startOffset);
-      range.setEnd(currentRange.endContainer, currentRange.endOffset);
+      const range = document.getSelection().getRangeAt(0);
 
       editHistory.add({
-        range: range,
+        range: range.cloneRange(),
         nodes: editor.cloneNode(true),
         date: new Date(),
       });
@@ -73,6 +69,16 @@
 
       if (!event.isComposing && event.code === 'Enter') {
         save();
+      }
+
+      if ((event.ctrlKey || event.metaKey) && !event.shiftKey && event.code === 'KeyZ') {
+        event.preventDefault();
+        undo.click();
+      }
+
+      if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.code === 'KeyZ') {
+        event.preventDefault();
+        redo.click();
       }
     }, false);
 
