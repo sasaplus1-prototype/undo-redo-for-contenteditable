@@ -67,7 +67,8 @@
     editor.addEventListener('keydown', function(event) {
       console.log('keydown', event);
 
-      if (!event.isComposing && event.code === 'Enter') {
+      // NOTE: Android Chrome has not event.code...
+      if (!event.isComposing && /* event.code === 'Enter' */ event.keyCode === 13) {
         save();
       }
 
